@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="main-layout">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Samples list</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <h1>Users list</h1>
+        <div>
+            <a href="#" th:href="@{/admin/user/new}">New user</a>
+        </div>
+        <table>
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>password</th>
+                <th>roles</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody th:each="user: ${usersList}">
+                <tr>
+                    <td th:text="${user.id}">1</td>
+                    <td th:text="${user.name}">Sample User</td>
+                    <td th:text="${user.password}">se3ret</td>
+                    <td>
+                        <th:block th:each="role: ${user.roles}">
+                            <th:block th:text="${role.name}"></th:block>
+                        </th:block>
+                    </td>
+                    <td>
+                        <a href="#" th:href="@{/admin/user/{username}/edit (username=${user.name})}">Edit</a>
+                        <a href="#" th:href="@{/admin/user/{username}/delete (username=${user.name})}">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

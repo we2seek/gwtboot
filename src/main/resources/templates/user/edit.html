@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="main-layout">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Samples list</title>
+</head>
+<body>
+<h1>Edit user</h1>
+<div layout:fragment="content">
+    <h1 th:if="${user.id} == null">Create new user</h1>
+    <h1 th:if="${user.id} != null"
+        th:text="'Edit user # ' + ${user.id}">Edit account</h1>
+
+    <form method="post" action="#"
+          th:action="@{/admin/user/save}"
+          th:object="${user}">
+        <input type="hidden" th:field="*{id}" />
+        <table>
+            <tr>
+                <th>
+                    <span>Name:</span>
+                    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                </th>
+                <td>
+                    <input type="text" th:field="*{name}" />
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <span>Password:</span>
+                    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                </th>
+                <td>
+                    <input type="password" th:field="*{password}" />
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <span>Roles:</span>
+                    <div th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}">Roles not set!</div>
+                </th>
+                <td>
+                    <th:block th:each="role : ${allroles}">
+                        <input type="checkbox" th:field="*{roles}" th:value="${role.id}" />
+                        <label th:for="${#ids.prev('roles')}" th:text="${role.name}">Role Label</label>
+                    </th:block>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" value="Save" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>
